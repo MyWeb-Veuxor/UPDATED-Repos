@@ -1,3 +1,10 @@
+:root {
+    --main-bg-color: #333;
+    --main-text-color: #fff;
+    --secondary-bg-color: #f2f2f2;
+    --border-color: #ccc;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,8 +13,8 @@ body {
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
     padding: 10px 0;
     text-align: center;
 }
@@ -31,23 +38,24 @@ form input, form select, form textarea, form button {
     margin-bottom: 10px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+.history-card {
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
-table, th, td {
-    border: 1px solid #ccc;
-    text-align: left;
-    padding: 8px;
+.history-card div {
+    margin-bottom: 5px;
 }
 
-th {
-    background-color: #f2f2f2;
+.history-card img {
+    width: 50px;
+    cursor: pointer;
 }
 
-/* Estilo para imagen en modo de pantalla completa */
 .fullscreen-img {
     position: fixed;
     top: 0;
@@ -60,7 +68,6 @@ th {
     cursor: pointer;
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
     header {
         padding: 20px 0;
@@ -75,13 +82,8 @@ th {
         padding: 10px;
     }
 
-    table, th, td {
-        font-size: 14px;
-        padding: 6px;
-    }
-
-    table {
-        margin-top: 5px;
+    .history-card img {
+        width: 40px;
     }
 }
 
@@ -99,14 +101,7 @@ th {
         padding: 8px;
     }
 
-    table, th, td {
-        font-size: 12px;
-        padding: 4px;
-    }
-
-    table {
-        margin-top: 2px;
+    .history-card img {
+        width: 30px;
     }
 }
-
-
