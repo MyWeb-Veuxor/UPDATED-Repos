@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const vehicleForm = document.getElementById('vehicleForm');
     const plateInput = document.getElementById('plate');
     
-    const historyTable = document.getElementById('historyTable').getElementsByTagName('tbody')[0];
+    const historyCards = document.getElementById('historyCards');
     const toggleHistoryBtn = document.getElementById('toggleHistoryBtn');
     const historyContent = document.getElementById('historyContent');
+    const datetimeInput = document.getElementById('datetime');
 
     const toBase64 = (file) => new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadHistory = () => {
         const records = JSON.parse(localStorage.getItem('vehicleRecords')) || [];
-        records.forEach(record => addRecordToTable(record));
+        records.forEach(record => addRecordToCards(record));
     };
 
     const saveRecord = (record) => {
@@ -24,28 +25,34 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('vehicleRecords', JSON.stringify(records));
     };
 
-    const addRecordToTable = (record) => {
-        const newRow = historyTable.insertRow(0); 
+    const addRecordToCards = (record) => {
+        const card = document.createElement('div');
+        card.className = 'history-card';
         
-        newRow.insertCell().textContent = record.datetime;
-        newRow.insertCell().textContent = record.brand;
-        newRow.insertCell().textContent = record.model;
-        newRow.insertCell().textContent = record.clave;
-        newRow.insertCell().textContent = record.plate;
-        newRow.insertCell().textContent = record.color;
-        newRow.insertCell().textContent = record.owner;
-        newRow.insertCell().textContent = record.habitacion;
-        newRow.insertCell().textContent = record.garage;
-        newRow.insertCell().textContent = record.observations;
-        
-        const imageCell = newRow.insertCell();
+        card.innerHTML = `
+            <div><strong>Fecha y Hora:</strong> ${record.datetime}</div>
+            <div><strong>Marca:</strong> ${record.brand}</div>
+            <div><strong>Modelo:</strong> ${record.model}</div>
+            <div><strong>Clave:</strong> ${record.clave}</div>
+            <div><strong>Placa:</strong> ${record.plate}</div>
+            <div><strong>Color:</strong> ${record.color}</div>
+            <div><strong>Propietario:</strong> ${record.owner}</div>
+            <div><strong>Habitación:</strong> ${record.habitacion}</div>
+            <div><strong>Garaje:</strong> ${record.garage}</div>
+            <div><strong>Observaciones:</strong> ${record.observations}</div>
+            <div><strong>Imágenes:</strong></div>
+        `;
+
+        const imageContainer = document.createElement('div');
         record.images.forEach(image => {
             const img = document.createElement('img');
             img.src = image;
-            img.width = 100;
             img.addEventListener('click', () => openFullscreen(img));
-            imageCell.appendChild(img);
+            imageContainer.appendChild(img);
         });
+        card.appendChild(imageContainer);
+
+        historyCards.prepend(card);  // Cambiado a prepend para que los registros recientes aparezcan primero
     };
 
     const handleFormSubmit = async (event) => {
@@ -68,8 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         saveRecord(record);
-        addRecordToTable(record);
+        addRecordToCards(record);
         vehicleForm.reset();
+
+        // Mostrar mensaje de éxito
+        alert('Su vehículo ha sido registrado con éxito');
+        
+        // Restablecer la fecha y hora actuales
+        setCurrentDateTime();
     };
 
     const handlePlateInput = () => {
@@ -77,15 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const record = records.find(record => record.plate === plateInput.value);
         
         if (record) {
-            document.getElementById('datetime').value = record.datetime;
             document.getElementById('brand').value = record.brand;
             document.getElementById('model').value = record.model;
             document.getElementById('clave').value = record.clave;
             document.getElementById('color').value = record.color;
             document.getElementById('owner').value = record.owner;
-            document.getElementById('habitacion').value = record.habitacion;
-            document.getElementById('garage').value = record.garage;
-            document.getElementById('observations').value = record.observations;
         }
     };
 
@@ -109,11 +118,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(fullscreenImg);
     };
 
+    // Establecer fecha y hora actuales desde el dispositivo al cargar la página
+    const setCurrentDateTime = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        datetimeInput.value = formattedDateTime;
+    };
+
     vehicleForm.addEventListener('submit', handleFormSubmit);
     plateInput.addEventListener('input', handlePlateInput);
     toggleHistoryBtn.addEventListener('click', toggleHistoryVisibility);
 
+    setCurrentDateTime();
     loadHistory();
 });
-
-
