@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garaje Veuxor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Garaje Veuxor</h1>
+    </header>
+    
+    <main>
+        <section id="registration">
+            <h2>Registro de Vehículo</h2>
+            <form id="vehicleForm">
+                <label for="datetime">Fecha y Hora:</label>
+                <input type="datetime-local" id="datetime" name="datetime" required>
+                
+                <label for="brand">Marca:</label>
+                <input type="text" id="brand" name="brand" required>
+                
+                <label for="model">Modelo:</label>
+                <input type="text" id="model" name="model" required>
+
+                <label for="clave">Clave:</label>
+                <input type="text" id="clave" name="clave" required>
+                
+                <label for="plate">Placa:</label>
+                <input type="text" id="plate" name="plate" required>
+                
+                <label for="color">Color:</label>
+                <input type="text" id="color" name="color" required>
+                
+                <label for="owner">Propietario:</label>
+                <input type="text" id="owner" name="owner" required>
+
+                <label for="habitacion">Habitación:</label>
+                <input type="text" id="habitacion" name="habitacion" required>
+                
+                <label for="garage">Garaje:</label>
+                <select id="garage" name="garage" required>
+                    <option value="P1">P1</option>
+                    <option value="P2">P2</option>
+                </select>
+                
+                <label for="observations">Observaciones:</label>
+                <textarea id="observations" name="observations"></textarea>
+                
+                <label for="image">Imagen:</label>
+                <input type="file" id="image" name="image" accept="image/*" multiple required>
+                
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
+        
+        <section id="history">
+            <h2>Historial de Vehículos Registrados</h2>
+            <button id="toggleHistoryBtn">Mostrar Historial</button>
+            <div id="historyContent" style="display: none;">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Fecha y Hora</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Clave</th>
+                            <th>Placa</th>
+                            <th>Color</th>
+                            <th>Propietario</th>
+                            <th>Habitación</th>
+                            <th>Garaje</th>
+                            <th>Observaciones</th>
+                            <th>Imágenes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los registros se agregarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
